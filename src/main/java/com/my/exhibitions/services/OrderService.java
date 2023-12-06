@@ -39,7 +39,7 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
     public void createTickets(int numberOfTickets, long exhibition) {
-        User currentUser = this.getCurrentUser();
+        User currentUser = userService.getCurrentUser();
         for(int i = 0; i < numberOfTickets; ++i) {
             this.createTicket(exhibition,currentUser);
         }
@@ -57,9 +57,5 @@ public class OrderService {
         userService.update(currentUser);
     }
 
-    public User getCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails)principal).getUsername();
-        return userService.findByUsername(username);
-    }
+
 }
