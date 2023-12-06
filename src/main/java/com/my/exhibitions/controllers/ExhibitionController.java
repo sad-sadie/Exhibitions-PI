@@ -129,7 +129,7 @@ public class ExhibitionController {
 
     @PostMapping("buyTicket")
     public String buyTicket(@Valid @ModelAttribute("payment")Payment payment,
-                          BindingResult bindingResult,
+                            BindingResult bindingResult,
                             @RequestParam(value = "exhibitionId") String exhibitionId,
                             Model model) {
         LOGGER.info("Post -> /buyTicket");
@@ -137,24 +137,21 @@ public class ExhibitionController {
             LOGGER.error("Error while buying a ticket");
             return "paymentForm";
         }
+
         int numberOfTickets = payment.getTicketNumber();
         long exhibition = ExhibitionService.getNumberFromString(exhibitionId).orElseThrow();
-        for(int i = 0; i < numberOfTickets; ++i) {
-             exhibitionService.addCustomer(exhibition);
-        }
 
+        orderService.createTickets(numberOfTickets, exhibition);
         List<Order> orders = orderService.findAll();
-        List<Long> tickets = orders.subList(orders.size() - numberOfTickets, orders.size())
-                .stream()
-                .map(Order::getId)
-                .collect(Collectors.toList());
-
+        List<Long> tickets = orderService.getTickets(numberOfTickets);
         Exhibition exhibitionEntity = exhibitionService.findById(orders.get(orders.size() - 1).getExhibitionId());
+
         model.addAttribute("tickets", tickets);
         model.addAttribute("exhibitionName", exhibitionEntity.getTheme());
 
         return "printTickets";
     }
+
 
 
 

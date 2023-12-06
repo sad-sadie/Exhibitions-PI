@@ -72,25 +72,7 @@ public class ExhibitionService {
         exhibitionRepository.deleteById(id);
     }
 
-    public Long addCustomer(long exhibitionId) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails)principal).getUsername();
 
-        LOGGER.info("Confirming ticket purchase for " + username + " for exhibition with id " + exhibitionId);
-
-        Exhibition exhibition = exhibitionRepository.findById(exhibitionId);
-        User currentUser = userService.findByUsername(username);
-
-        List<Exhibition> exhibitions = currentUser.getExhibitions();
-        exhibitions.add(exhibition);
-
-        List<User> users = exhibition.getUsers();
-        users.add(currentUser);
-
-        save(exhibition);
-        userService.update(currentUser);
-        return exhibitionId;
-    }
 
     public Map<Exhibition, Integer> getStats() {
         LOGGER.info("Getting exhibitions' stats on page");
