@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tickets</title>
+    <link rel="stylesheet" th:href="@{/css/printTickets.css}">
+</head>
+<body>
+<div th:insert="fragments/navbar.html"></div>
+<div class="tickets">
+    <h2><th th:text="#{print-ticket}">Print ticket(s)</th></h2>
+    <th:block th:each="ticket : ${tickets}">
+        <div class="ticket">
+            <div class="ticket-image">
+                <img th:src="@{/css/ticket.png}"/>
+            </div>
+            <div class="ticket-info">
+                <div class="ticket-info">
+                    <label><th th:text="#{ticket-number}">Ticket number</th>: <th:block th:text="${ticket}">Ticket id</th:block></label>
+                </div>
+                <div class="ticket-info">
+                    <label><th th:text="#{exhibition}">Exhibition</th>: <th:block th:text="${exhibitionName}">Exhibition name</th:block></label>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</div>
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>

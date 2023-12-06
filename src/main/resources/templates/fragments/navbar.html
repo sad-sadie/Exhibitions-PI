@@ -1,0 +1,31 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<div class="topnav">
+   <a class="active" th:href="@{/home}" th:text="#{home}"></a>
+    <a th:href="@{/registration}" th:text="#{registration}"></a>
+    <div sec:authorize="not hasAuthority('ADMIN') and not hasAnyAuthority('USER')">
+        <a th:href="@{/login}" th:text="#{log-in}"></a>
+    </div>
+
+
+
+  <div sec:authorize="hasAuthority('ADMIN')">
+    <a th:href="@{/addExhibition}" th:text="#{add-exhibition}"></a>
+    <a th:href="@{/addHall}" th:text="#{add-hall}"></a>
+    <a th:href="@{/getStats}" th:text="#{view-statistics}"></a>
+  </div>
+    <a th:href="@{/css/huy.txt}" download="huy.txt" th:text="#{blind-help}"></a>
+
+
+  <a class="change-language" th:text="#{lang}"
+     th:href="@{__${#httpServletRequest.requestURI}__?lang=__${#locale.toString()}=='ua'?'en':'ua'__}">
+  </a>
+    <div sec:authorize="hasAuthority('ADMIN') or hasAnyAuthority('USER')">
+          <div class="login-container">
+            <form th:action="@{/logout}" method="get">
+              <button type="submit" th:text="#{logout}"></button>
+            </form>
+          </div>
+    </div>
+
+</div>
